@@ -1,4 +1,0 @@
-nom,prix_achat,prix_vente
-tshirt nike,5,15
-sweat adidas,10,30
-jean levi's,12,35
