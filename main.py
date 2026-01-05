@@ -5,20 +5,20 @@
 #Ce projet analyse la rentabilité de produits pour la revente.
 
 # TODO: Export results to CSV
-# TODO: Add web interface
-
-import csv
-
-# TODO: Export results to CSV
-# TODO: Add web dashboard
+# TODO: Add web interface and dashboard
 # TODO: Connect to database
+import csv
+import os
+
+INPUT_FILE = "data/products.csv"
+OUTPUT_DIR = "output"
+OUTPUT_FILE = "analysis_results.csv"
 
 
-
-def analyze_products(file_path):
+def analyze_products(input_path):
     results = []
 
-    with open(file_path, newline="", encoding="utf-8") as file:
+    with open(input_path, newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
 
         for row in reader:
@@ -39,16 +39,14 @@ def analyze_products(file_path):
                 else:
                     status = "🔴 MAUVAIS"
 
-                result = {
+                results.append({
                     "name": row["name"],
                     "buy_price": buy,
                     "sell_price": sell,
                     "profit": profit,
-                    "margin": round(margin, 1),
+                    "margin": round(margin, 2),
                     "status": status
-                }
-
-                results.append(result)
+                })
 
             except (ValueError, KeyError):
                 continue
@@ -57,17 +55,29 @@ def analyze_products(file_path):
 
 
 def export_to_csv(results, output_path):
-    if not results:
-        print("Aucun résultat à exporter.")
-        return
-
     with open(output_path, mode="w", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=results[0].keys())
+        fieldnames = [
+            "name",
+            "buy_price",
+            "sell_price",
+            "profit",
+            "margin",
+            "status"
+        ]
+
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(results)
 
 
+def main():
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+    results = analyze_products(INPUT_FILE)
+    export_to_csv(results, os.path.join(OUTPUT_DIR, OUTPUT_FILE))
+
+    print("✅ Analyse terminée — fichier généré avec succès")
+
+
 if __name__ == "__main__":
-    results = analyze_products("data/products.csv")
-    export_to_csv(results, "output/analysis_results.csv")
-    print("Analyse terminée – fichier généré avec succès ✅")
+    main()
