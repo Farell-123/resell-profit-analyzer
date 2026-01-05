@@ -13,10 +13,14 @@ import csv
 # TODO: Add web dashboard
 # TODO: Connect to database
 
+
+
 def analyze_products(file_path):
     results = []
+
     with open(file_path, newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
+
         for row in reader:
             try:
                 buy = float(row["buy_price"])
@@ -40,7 +44,7 @@ def analyze_products(file_path):
                     "buy_price": buy,
                     "sell_price": sell,
                     "profit": profit,
-                    "margin": margin,
+                    "margin": round(margin, 1),
                     "status": status
                 }
 
@@ -52,6 +56,18 @@ def analyze_products(file_path):
     return results
 
 
+def export_to_csv(results, output_path):
+    if not results:
+        print("Aucun résultat à exporter.")
+        return
+
+    with open(output_path, mode="w", newline="", encoding="utf-8") as file:
+        writer = csv.DictWriter(file, fieldnames=results[0].keys())
+        writer.writeheader()
+        writer.writerows(results)
+
+
 if __name__ == "__main__":
     results = analyze_products("data/products.csv")
-    print(results)
+    export_to_csv(results, "output/analysis_results.csv")
+    print("Analyse terminée – fichier généré avec succès ✅")
