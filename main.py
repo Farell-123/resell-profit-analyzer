@@ -14,9 +14,9 @@ import csv
 # TODO: Connect to database
 
 def analyze_products(file_path):
+    results = []
     with open(file_path, newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
-
         for row in reader:
             try:
                 buy = float(row["buy_price"])
@@ -35,18 +35,23 @@ def analyze_products(file_path):
                 else:
                     status = "🔴 MAUVAIS"
 
-                print(
-                    f"{row['name']} | "
-                    f"Buy: {buy}€ | "
-                    f"Sell: {sell}€ | "
-                    f"Profit: {profit}€ | "
-                    f"Margin: {margin:.1f}% | "
-                    f"{status}"
-                )
+                result = {
+                    "name": row["name"],
+                    "buy_price": buy,
+                    "sell_price": sell,
+                    "profit": profit,
+                    "margin": margin,
+                    "status": status
+                }
+
+                results.append(result)
 
             except (ValueError, KeyError):
-                # Skip invalid rows
                 continue
 
+    return results
+
+
 if __name__ == "__main__":
-    analyze_products("data/products.csv")
+    results = analyze_products("data/products.csv")
+    print(results)
