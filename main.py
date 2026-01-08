@@ -10,6 +10,7 @@
 import csv
 import os
 
+# Constants
 INPUT_FILE = "data/products.csv"
 OUTPUT_DIR = "output"
 OUTPUT_FILE = "analysis_results.csv"
@@ -17,6 +18,13 @@ OUTPUT_FILE = "analysis_results.csv"
 
 def analyze_products(input_path):
     results = []
+
+    profit_total = 0
+    margin_total = 0
+
+    total_excellent = 0
+    total_correct = 0
+    total_bad = 0
 
     with open(input_path, newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
@@ -34,22 +42,42 @@ def analyze_products(input_path):
 
                 if margin >= 100:
                     status = "🟢 EXCELLENT"
+                    total_excellent += 1
                 elif margin >= 50:
                     status = "🟡 CORRECT"
+                    total_correct += 1
                 else:
                     status = "🔴 MAUVAIS"
+                    total_bad += 1
+
+                profit_total += profit
+                margin_total += margin
 
                 results.append({
                     "name": row["name"],
                     "buy_price": buy,
                     "sell_price": sell,
-                    "profit": profit,
+                    "profit": round(profit, 2),
                     "margin": round(margin, 2),
                     "status": status
                 })
 
             except (ValueError, KeyError):
                 continue
+
+    # Summary
+    if len(results) > 0:
+        margin_average = round(margin_total / len(results), 2)
+    else:
+        margin_average = 0
+
+    print("\n📊 RÉSUMÉ")
+    print(f"Produits analysés : {len(results)}")
+    print(f"Profit total : {round(profit_total, 2)} €")
+    print(f"Marge moyenne : {margin_average} %")
+    print(f"🟢 EXCELLENT : {total_excellent}")
+    print(f"🟡 CORRECT : {total_correct}")
+    print(f"🔴 MAUVAIS : {total_bad}")
 
     return results
 
@@ -76,7 +104,7 @@ def main():
     results = analyze_products(INPUT_FILE)
     export_to_csv(results, os.path.join(OUTPUT_DIR, OUTPUT_FILE))
 
-    print("✅ Analyse terminée — fichier généré avec succès")
+    print("\n✅ Analyse terminée — fichier généré avec succès")
 
 
 if __name__ == "__main__":
