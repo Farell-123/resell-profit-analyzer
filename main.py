@@ -1,21 +1,36 @@
 ## Description
-#This project analyzes resale profitability for sellers.
+# This project analyzes resale profitability for sellers.
 
 ## Description (FR)
-#Ce projet analyse la rentabilité de produits pour la revente.
+# Ce projet analyse la rentabilité de produits pour la revente.
 
-# TODO: Export results to CSV
-# TODO: Add web interface and dashboard
-# TODO: Connect to database
 import csv
 import os
+import json
 
+
+# ======================
 # Constants
+# ======================
 INPUT_FILE = "data/products.csv"
 OUTPUT_DIR = "output"
 OUTPUT_FILE = "analysis_results.csv"
+CONFIG_FILE = "config.json"
 
 
+# ======================
+# Load configuration
+# ======================
+with open(CONFIG_FILE, "r", encoding="utf-8") as file:
+    config = json.load(file)
+
+EXCELLENT_MARGIN = config["excellent_margin"]
+CORRECT_MARGIN = config["correct_margin"]
+
+
+# ======================
+# Core analysis
+# ======================
 def analyze_products(input_path):
     results = []
 
@@ -40,10 +55,10 @@ def analyze_products(input_path):
                 profit = sell - buy
                 margin = (profit / buy) * 100
 
-                if margin >= 100:
+                if margin >= EXCELLENT_MARGIN:
                     status = "🟢 EXCELLENT"
                     total_excellent += 1
-                elif margin >= 50:
+                elif margin >= CORRECT_MARGIN:
                     status = "🟡 CORRECT"
                     total_correct += 1
                 else:
@@ -82,6 +97,9 @@ def analyze_products(input_path):
     return results
 
 
+# ======================
+# Export
+# ======================
 def export_to_csv(results, output_path):
     with open(output_path, mode="w", newline="", encoding="utf-8") as file:
         fieldnames = [
@@ -98,6 +116,9 @@ def export_to_csv(results, output_path):
         writer.writerows(results)
 
 
+# ======================
+# Main
+# ======================
 def main():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -105,7 +126,7 @@ def main():
     export_to_csv(results, os.path.join(OUTPUT_DIR, OUTPUT_FILE))
 
     print(f"\n📁 Fichier généré : {os.path.join(OUTPUT_DIR, OUTPUT_FILE)}")
-    print("\n✅ Analyse terminée — fichier généré avec succès")
+    print("✅ Analyse terminée — fichier généré avec succès")
 
 
 if __name__ == "__main__":

@@ -31,5 +31,17 @@ Cet outil aide les revendeurs (Vinted, sneakers, e-commerce, etc.)
 - Décisions plus intelligentes
 - Outil simple et rapide
 
+## ⚙️ Configuration
+
+Les seuils de rentabilité sont configurables via le fichier `config.json`.
+
+Exemple :
+```json
+{
+  "excellent_margin": 100,
+  "correct_margin": 50
+}
+
+
 
 
