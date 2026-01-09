@@ -42,6 +42,8 @@ Exemple :
   "correct_margin": 50
 }
 
+Les seuils peuvent être modifiés sans changer le code, 
+simplement en ajustant le fichier `config.json`.
 
 
 
