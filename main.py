@@ -104,6 +104,7 @@ def main():
     results = analyze_products(INPUT_FILE)
     export_to_csv(results, os.path.join(OUTPUT_DIR, OUTPUT_FILE))
 
+    print(f"\n📁 Fichier généré : {os.path.join(OUTPUT_DIR, OUTPUT_FILE)}")
     print("\n✅ Analyse terminée — fichier généré avec succès")
 
 

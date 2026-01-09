@@ -1,16 +1,35 @@
 # Resell Profit Analyzer
 
-## Problème
-Les micro-vendeurs ne savent pas quels produits acheter et revendre pour maximiser leurs profits.
+## 🎯 À quoi ça sert ?
+Cet outil aide les revendeurs (Vinted, sneakers, e-commerce, etc.)
+à savoir **quels produits sont vraiment rentables** avant d’acheter.
 
-## Solution
-Cet outil analyse le prix d'achat et le prix de vente pour donner un score de rentabilité simple : 🔴 Mauvais, 🟡 Moyen, 🟢 Rentable.
+## ⚙️ Fonctionnalités
+- Calcul automatique du profit
+- Calcul de la marge (%)
+- Score de rentabilité :
+  - 🟢 EXCELLENT
+  - 🟡 CORRECT
+  - 🔴 MAUVAIS
+- Export des résultats en CSV
 
-## Installation
-- Installer Python
-- Télécharger main.py
-- Exécuter `python main.py`
+## 📂 Comment l’utiliser
 
-## Utilisation
-- Ajouter les produits dans data/products.csv
-- Lancer le script pour obtenir le score de chaque produit
+1. Installer Python (version 3.10 ou plus)
+2. Mettre vos produits dans : data/products.csv
+3. Lancer le script python : main.py
+4. Résultat généré dans : output/analysis_results.csv
+
+## 👤 Pour qui ?
+- Revendeurs débutants ou confirmés
+- Dropshippers
+- Micro-entrepreneurs
+- Étudiants qui veulent analyser la rentabilité
+
+## 🚀 Pourquoi l’utiliser ?
+- Gain de temps
+- Décisions plus intelligentes
+- Outil simple et rapide
+
+
+
