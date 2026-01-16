@@ -24,8 +24,8 @@ CONFIG_FILE = "config.json"
 with open(CONFIG_FILE, "r", encoding="utf-8") as file:
     config = json.load(file)
 
-EXCELLENT_MARGIN = config["excellent_margin"]
-CORRECT_MARGIN = config["correct_margin"]
+EXCELLENT_MARGIN = config.get("excellent_margin", 100)
+CORRECT_MARGIN = config.get("correct_margin", 50)
 
 
 # ======================
